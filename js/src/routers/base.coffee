@@ -9,6 +9,7 @@ class App.Routers.Base extends Backbone.Router
     @route /^\!\/(ru|en)\/?$/, 'home'
     @route /^\!\/(ru|en)\/companies\/?$/, 'companies'
     @route /^\!\/(ru|en)\/companies\/(.+)\/?$/, 'company'
+    @route /^\!\/(ru|en)\/companies\/(name|activity-type|brand|equipment-type)\/(.+)\/?$/, 'searchCompanies'
 
   before: (name, args) ->
     @current = name
