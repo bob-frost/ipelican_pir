@@ -1,0 +1,91 @@
+gem 'json'
+gem 'rubyzip', '~> 0.9.0'
+gem 'roo', '~> 1.11.0'
+
+require 'rubygems'
+require 'uri'
+require 'open-uri'
+require 'json'
+require 'roo'
+
+task :parse do
+  START_ROW                  = 2
+  ID_COLUMN                  = 1
+  NAME_COLUMN                = 0
+  DESCRIPTION_COLUMN         = 4
+  ADDRESS_COLUMN             = 5
+  PHONE_COLUMN               = 6
+  SITE_COLUMN                = 7
+  BRANDS_COLUMN              = 8
+  EQUIPMENT_TYPES_COLUMN     = 9
+  IMAGE_COLUMN               = 11
+  ACTIVITY_TYPES_COLUMN      = 12
+  BRANDS_COLUMN_SEP          = ','
+  EQUIPMENT_TYPES_COLUMN_SEP = ','
+  ACTIVITY_TYPES_COLUMN_SEP  = ';'
+
+  Dir.glob("#{File.expand_path("../import/*.xlsx", __FILE__)}").each do |path|
+    puts "Importing #{path}"
+    data = []
+    file = Roo::Spreadsheet.open(path)
+
+    for i in START_ROW..file.last_row do
+      attributes, errors = {}, []
+      begin
+        row = file.row i
+
+        id = row[ID_COLUMN].to_s.strip
+        if id.empty?
+          errors << "Stand number can't be blank"
+        elsif data.detect{ |i| i[:id] == id }
+          errors << "Stand number '#{id}' already exists"
+        else
+          attributes[:id] = id
+        end
+
+        name = row[NAME_COLUMN].to_s.strip
+        if name.empty?
+          errors << "Name can't be blank"
+        else
+          attributes[:name] = name
+        end
+
+        %w(DESCRIPTION_COLUMN ADDRESS_COLUMN PHONE_COLUMN SITE_COLUMN).each do |column|
+          attribute = row[eval(column)].to_s.strip
+          attributes[column.gsub('_COLUMN', '').downcase.to_sym] = attribute unless attribute.empty?
+        end
+
+        image_url = row[IMAGE_COLUMN].to_s.strip
+        unless image_url.empty?
+          filename = File.basename(URI.parse(image_url).path)
+          File.write(File.join(File.expand_path("../app/data/images", __FILE__), filename), open(image_url).read, { mode: 'wb' })
+          attributes[:image] = filename
+        end
+
+        %w(BRANDS_COLUMN EQUIPMENT_TYPES_COLUMN ACTIVITY_TYPES_COLUMN).each do |column|
+          sep = eval("#{column}_SEP")
+          attribute = row[eval(column)].to_s.squeeze(sep).split(sep).map{ |a| a.strip }.sort
+          attributes[column.gsub('_COLUMN', '').downcase.to_sym] = attribute
+        end
+
+        unless errors.any?
+          data << attributes
+        else
+          msg = "Couldn't import row #{i}\n"
+          msg << errors.join("\n")
+          msg << "\n\n"
+          puts msg
+        end
+      rescue Exception => e
+        msg = "Couldn't import row #{i}\n#{e.message}\n"
+        msg << e.backtrace[0..3].join("\n")
+        msg << "\n\n"
+        puts msg
+      end    
+    end
+
+    json = JSON.generate(data)
+    filename = File.join(File.expand_path("../app/data", __FILE__), "#{File.basename(path, '.xlsx')}.json")
+    File.open(filename, 'w') { |file| file.write(json) }
+  end
+end

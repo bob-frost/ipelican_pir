@@ -1,1 +1,4 @@
-js/app.js
+app/js/app.js
+import/*.xlsx
+app/data/*.json
+app/data/images/*
