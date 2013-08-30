@@ -1,12 +1,16 @@
 gem 'json'
 gem 'rubyzip', '~> 0.9.0'
 gem 'roo', '~> 1.11.0'
+gem 'coffee-script'
+gem 'uglifier'
 
 require 'rubygems'
 require 'uri'
 require 'open-uri'
 require 'json'
 require 'roo'
+require 'coffee-script'
+require 'uglifier'
 
 task :parse do
   START_ROW                  = 2
@@ -26,7 +30,7 @@ task :parse do
 
   res = 'window.DATA = {};'
 
-  Dir.glob("#{File.expand_path("../import/*.xlsx", __FILE__)}").each do |path|
+  Dir.glob(File.expand_path("../import/*.xlsx", __FILE__)).each do |path|
     puts "Importing #{path}"
     data = []
     file = Roo::Spreadsheet.open(path)
@@ -60,7 +64,7 @@ task :parse do
         image_url = row[IMAGE_COLUMN].to_s.strip
         unless image_url.empty?
           filename = File.basename(URI.parse(image_url).path)
-          File.write(File.join(File.expand_path("../app/data/images", __FILE__), filename), open(image_url).read, { mode: 'wb' })
+          File.write(File.expand_path("../app/data/images/#{filename}", __FILE__), open(image_url).read, { mode: 'wb' })
           attributes[:image] = filename
         end
 
@@ -91,6 +95,29 @@ task :parse do
     res << "\nwindow.DATA.#{locale} = #{json};"
   end
 
-  filename = File.join(File.expand_path('../app/data', __FILE__), 'companies.js')
+  filename = File.expand_path('../app/data/companies.js', __FILE__)
   File.open(filename, 'w') { |file| file.write(res) }
+end
+
+task :compile do
+  # To preserve order
+  vendors = ['jquery', 'underscore', 'backbone', 'i18n']
+  src_dirs = ['', 'ext', 'templates', 'models', 'collections', 'views', 'routers']
+  js = []
+
+  vendors.each do |vendor|
+    js << File.read(File.expand_path("../app/js/vendor/#{vendor}.js", __FILE__))
+  end
+
+  coffee = []
+  src_dirs.each do |dir|
+    Dir.glob(File.expand_path("../app/js/src/#{dir}/*.coffee", __FILE__)) do |file|
+      coffee << File.read(file)
+    end
+  end
+  js << CoffeeScript.compile(coffee.join("\n"))
+  js = Uglifier.compile js.join("\n")
+
+  filename = File.expand_path('../app/js/app.js', __FILE__)
+  File.open(filename, 'w') { |file| file.write(js) }
 end
