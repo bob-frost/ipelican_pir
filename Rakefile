@@ -24,6 +24,8 @@ task :parse do
   EQUIPMENT_TYPES_COLUMN_SEP = ','
   ACTIVITY_TYPES_COLUMN_SEP  = ';'
 
+  res = 'window.DATA = {};'
+
   Dir.glob("#{File.expand_path("../import/*.xlsx", __FILE__)}").each do |path|
     puts "Importing #{path}"
     data = []
@@ -85,7 +87,10 @@ task :parse do
     end
 
     json = JSON.generate(data)
-    filename = File.join(File.expand_path("../app/data", __FILE__), "#{File.basename(path, '.xlsx')}.json")
-    File.open(filename, 'w') { |file| file.write(json) }
+    locale = File.basename(path, '.xlsx')
+    res << "\nwindow.DATA.#{locale} = #{json};"
   end
+
+  filename = File.join(File.expand_path('../app/data', __FILE__), 'companies.js')
+  File.open(filename, 'w') { |file| file.write(res) }
 end

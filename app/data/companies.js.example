@@ -1,4 +1,5 @@
-[
+window.DATA = {};
+window.DATA.ru = [
   {
     "id": "3D78",
     "name": "ANLIKER BRUNNER AG / ФУД АКАДЕМИЯ",
@@ -41,4 +42,7 @@
       "Технологическое оборудование"
     ]
   }
+];
+window.DATA.en = [
+  ...
 ]
