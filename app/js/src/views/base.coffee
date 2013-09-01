@@ -114,9 +114,9 @@ class App.Views.Base extends Backbone.View
   _clearSearchForm: (event) ->
     $('input, select', @searchForms).val('')
     if App.router.current == 'searchCompanies'
-      navigate "#!/#{App.getLocale()}/companies"
+      App.router.navigate "#!/#{App.getLocale()}/companies", true
     else if App.router.current == 'searchMap' 
-      navigate "#!/#{App.getLocale()}"
+      App.router.navigate "#!/#{App.getLocale()}", true
     else
       @searchForms.hide()
       @clearSearch.hide()
@@ -131,4 +131,4 @@ class App.Views.Base extends Backbone.View
     $form = $caller.closest('.search-form')
     val = $.trim($form.find('select, input').first().val())
     if val.length > 0
-      navigate "#!/#{App.getLocale()}/companies/#{$form.attr('id').replace('search-form-', '')}/#{val}"
+      App.router.navigate "#!/#{App.getLocale()}/companies/#{$form.attr('id').replace('search-form-', '')}/#{val}", true
