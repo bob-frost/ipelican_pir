@@ -19,7 +19,7 @@ class App.Views.Base extends Backbone.View
 
   render: =>
     @header.html(JST['header'])
-    @searchForms = $('.search-form')
+
     @searchButtons = $('#search-buttons')
     @languageBar = $('#language-bar')
     @backToMap = $('#back-to-map')
@@ -32,11 +32,7 @@ class App.Views.Base extends Backbone.View
     @_showView @notFoundView
 
     $('body').attr('class', 'bg')
-    @languageBar.hide()
-    @searchForms.hide()
-    @clearSearch.hide()
-    @searchButtons.show()
-    @backToMap.show()
+    @_updateNavElements([@searchButtons, @backToMap])
 
   showHome: -> 
     unless @homeView 
@@ -45,33 +41,22 @@ class App.Views.Base extends Backbone.View
     @_showView @homeView.render()
 
     $('body').attr('class', 'bg')
-    @languageBar.show()
-    @searchForms.hide()
-    @clearSearch.hide()
-    @searchButtons.show()
-    @backToMap.hide()
+    @_updateNavElements([@languageBar, @searchButtons])
 
   showCompanies: (locale, page) -> 
     @_showCompanies page
 
     $('body').attr('class', '')
-    @languageBar.hide()
-    @searchForms.hide()
-    @clearSearch.hide()
-    @searchButtons.show()
-    @backToMap.show()
+    @_updateNavElements([@searchButtons, @backToMap])
 
   searchCompanies: (locale, attr, value, page) ->
     @_showCompanies page, attr, value
 
     $('body').attr('class', '')
-    @languageBar.hide()
-    @searchForms.hide()
-    @clearSearch.show()
-    @searchButtons.hide()
-    @backToMap.hide()
+
     $form = $("#search-form-#{attr}")
-    $form.show().find('select, input').first().val(value)
+    $form.find('select, input').first().val(value)
+    @_updateNavElements([@clearSearch, $form])
 
   showCompany: (locale, id) ->
     company = App.companies.get(id)
@@ -85,11 +70,7 @@ class App.Views.Base extends Backbone.View
     @_showView @companyView.render()
 
     $('body').attr('class', '')
-    @languageBar.hide()
-    @searchForms.hide()
-    @clearSearch.hide()
-    @searchButtons.show()
-    @backToMap.show()
+    @_updateNavElements([@searchButtons, @backToMap])
 
   _showView: (view) ->
     if @currentView 
@@ -104,27 +85,21 @@ class App.Views.Base extends Backbone.View
 
   _showSearchForm: (event) ->
     $caller = $(event.target)
-    @languageBar.hide()
-    @searchForms.hide()
-    @clearSearch.show()
-    @searchButtons.hide()
-    @backToMap.hide()
-    $("#search-form-#{$caller.data('type')}").show()
+    @_updateNavElements([@clearSearch, $("#search-form-#{$caller.data('type')}")])
 
   _clearSearchForm: (event) ->
-    $('input, select', @searchForms).val('')
+    $('.search-form input, .search-form select').val('')
     if App.router.current == 'searchCompanies'
       App.router.navigate "#!/#{App.getLocale()}/companies", true
     else if App.router.current == 'searchMap' 
       App.router.navigate "#!/#{App.getLocale()}", true
     else
-      @searchForms.hide()
-      @clearSearch.hide()
-      @searchButtons.show()
+      navEl = [@searchButtons]
       if App.router.current == 'home'
-        @languageBar.show()
+        navEl.push(@languageBar)
       else
-        @backToMap.show()
+        navEl.push(@backToMap)
+      @_updateNavElements(navEl)
 
   _submitSearchForm: (event) ->
     $caller = $(event.target)
@@ -132,3 +107,8 @@ class App.Views.Base extends Backbone.View
     val = $.trim($form.find('select, input').first().val())
     if val.length > 0
       App.router.navigate "#!/#{App.getLocale()}/companies/#{$form.attr('id').replace('search-form-', '')}/#{val}", true
+
+  _updateNavElements: (elmsToDisplay) ->
+    $('.nav-el').not(elmsToDisplay).hide()
+    _.each elmsToDisplay, (el) ->
+      el.show()
