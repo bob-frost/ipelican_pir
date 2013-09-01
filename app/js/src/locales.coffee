@@ -16,6 +16,10 @@ window.I18n.translations =
       submit: 'Найти'
       clear: 'Очистить'
     back_to_map: 'Вернуться к карте'
+    location: 'Адрес' 
+    phone: 'Телефон'
+    email: 'Email'
+    site: 'Веб-сайт'
 
   en:
     search:
@@ -33,3 +37,7 @@ window.I18n.translations =
       submit: 'Search'
       clear: 'Clear'
     back_to_map: 'Back to map'
+    location: 'Location' 
+    phone: 'Phone'
+    email: 'Email'
+    site: 'Website'

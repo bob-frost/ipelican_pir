@@ -17,7 +17,7 @@ task :parse do
   ID_COLUMN                  = 1
   NAME_COLUMN                = 0
   DESCRIPTION_COLUMN         = 4
-  ADDRESS_COLUMN             = 5
+  LOCATION_COLUMN            = 5
   PHONE_COLUMN               = 6
   SITE_COLUMN                = 7
   BRANDS_COLUMN              = 8
@@ -56,7 +56,7 @@ task :parse do
           attributes[:name] = name
         end
 
-        %w(DESCRIPTION_COLUMN ADDRESS_COLUMN PHONE_COLUMN SITE_COLUMN).each do |column|
+        %w(DESCRIPTION_COLUMN LOCATION_COLUMN PHONE_COLUMN SITE_COLUMN).each do |column|
           attribute = row[eval(column)].to_s.strip
           attributes[column.gsub('_COLUMN', '').downcase.to_sym] = attribute unless attribute.empty?
         end
@@ -64,7 +64,7 @@ task :parse do
         image_url = row[IMAGE_COLUMN].to_s.strip
         unless image_url.empty?
           filename = File.basename(URI.parse(image_url).path)
-          File.write(File.expand_path("../app/data/images/#{filename}", __FILE__), open(image_url).read, { mode: 'wb' })
+          File.write(File.expand_path("../app/data/images/#{filename}", __FILE__), open(image_url).read, {:mode => 'wb'})
           attributes[:image] = filename
         end
 
@@ -116,7 +116,8 @@ task :compile do
     end
   end
   js << CoffeeScript.compile(coffee.join("\n"))
-  js = Uglifier.compile js.join("\n")
+  js = js.join("\n")
+  # js = Uglifier.compile js.join("\n")
 
   filename = File.expand_path('../app/js/app.js', __FILE__)
   File.open(filename, 'w') { |file| file.write(js) }

@@ -13,14 +13,13 @@ window.App =
 
   locales: ['ru', 'en']
   defaultLocale: 'ru'
-  locale: null
+  locale: 'null'
 
   init: ->
     _.extend(@, Backbone.Events)
-
     unless (location.hash.substring(5, 6) == '/' || location.hash.substring(5, 6) == '') && @hasLocale(location.hash.substring(3, 5))
       location.hash = "#!/#{I18n.defaultLocale}"
-    I18n.locale = location.hash.substring(3, 5)
+    @setLocale location.hash.substring(3, 5)
     @router = new App.Routers.Base()
     @baseView = new App.Views.Base(el: $('#wrapper'))
     Backbone.history.start()
@@ -31,10 +30,18 @@ window.App =
   setLocale: (locale) ->
     if locale != @getLocale() && @hasLocale(locale)
       I18n.locale = locale
+      @_loadData()
       @trigger('change:locale')
 
   getLocale: ->
     I18n.locale
+
+  _loadData: ->
+    @companies ||= new App.Collections.Companies
+    @companies.reset DATA[@getLocale()]
+    @activityTypes = _.uniq(_.flatten(@companies.pluck('activity_types')))
+    @equipmentTypes = _.uniq(_.flatten(@companies.pluck('equipment_types')))
+    @brands = _.uniq(_.flatten(@companies.pluck('brands')))
 
 $ ->
   App.init()

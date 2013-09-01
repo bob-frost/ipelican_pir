@@ -8,36 +8,36 @@ window.JST['header'] = _.template(
           <input type='text' placeholder='<%= I18n.t('search.by_name_placeholder') %>' />
           <button class='btn'><%= I18n.t('search.submit') %></button>
         </div>
-        <div class='search-form' id='search-form-activity-type' style='display:none'>
+        <div class='search-form' id='search-form-activity_types' style='display:none'>
           <span class='label'><%= I18n.t('search.choose_label') %></span>
           &nbsp;
           <select>
             <option value=''><%= I18n.t('search.by_activity_type_placeholder') %></option>
-            <option value='activity 1'>activity 1</option>
-            <option value='activity 2'>activity 2</option>
-            <option value='activity 2'>activity 2</option>
+            <% _.each(App.activityTypes, function(opt){ %>
+              <option value='<%= opt %>'><%= opt %></option>
+            <% }) %>
           </select>
           <button class='btn'><%= I18n.t('search.submit') %></button>
         </div>
-        <div class='search-form' id='search-form-brand' style='display:none'>
+        <div class='search-form' id='search-form-brands' style='display:none'>
           <span class='label'><%= I18n.t('search.choose_label') %></span>
           &nbsp;
           <select>
             <option value=''><%= I18n.t('search.by_brand_placeholder') %></option>
-            <option value='brand 1'>brand 1</option>
-            <option value='brand 2'>brand 2</option>
-            <option value='brand 2'>brand 2</option>
+            <% _.each(App.brands, function(opt){ %>
+              <option value='<%= opt %>'><%= opt %></option>
+            <% }) %>
           </select>
           <button class='btn'><%= I18n.t('search.submit') %></button>
         </div>
-        <div class='search-form' id='search-form-equipment-type' style='display:none'>
+        <div class='search-form' id='search-form-equipment_types' style='display:none'>
           <span class='label'><%= I18n.t('search.choose_label') %></span>
           &nbsp;
           <select>
             <option value=''><%= I18n.t('search.by_equipment_type_placeholder') %></option>
-            <option value='equipment 1'>equipment 1</option>
-            <option value='equipment 2'>equipment 2</option>
-            <option value='equipment 2'>equipment 2</option>
+            <% _.each(App.equipmentTypes, function(opt){ %>
+              <option value='<%= opt %>'><%= opt %></option>
+            <% }) %>
           </select>
           <button class='btn'><%= I18n.t('search.submit') %></button>
         </div>
@@ -45,9 +45,9 @@ window.JST['header'] = _.template(
           <span class='label'><%= I18n.t('search.label') %></span>
           &nbsp;
           <button class='btn' data-type='name'><%= I18n.t('search.by_name') %></button>
-          <button class='btn' data-type='activity-type'><%= I18n.t('search.by_activity_type') %></button>
-          <button class='btn' data-type='brand'><%= I18n.t('search.by_brand') %></button>
-          <button class='btn' data-type='equipment-type'><%= I18n.t('search.by_equipment_type') %></button>
+          <button class='btn' data-type='activity_types'><%= I18n.t('search.by_activity_type') %></button>
+          <button class='btn' data-type='brands'><%= I18n.t('search.by_brand') %></button>
+          <button class='btn' data-type='equipment_types'><%= I18n.t('search.by_equipment_type') %></button>
         </div>
       </div>
       <button class='btn' id='clear-search' style='display:none'><%= I18n.t('search.clear') %></button>
