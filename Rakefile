@@ -90,7 +90,7 @@ task :parse do
       end    
     end
 
-    json = JSON.generate(data)
+    json = JSON.pretty_generate(data)
     locale = File.basename(path, '.xlsx')
     res << "\nwindow.DATA.#{locale} = #{json};"
   end
@@ -101,7 +101,7 @@ end
 
 task :compile do
   # To preserve order
-  vendors = ['jquery', 'underscore', 'backbone', 'i18n']
+  vendors = ['jquery', 'underscore', 'backbone', 'i18n', 'jquery.imagemapster']
   src_dirs = ['', 'ext', 'templates', 'models', 'collections', 'views', 'routers']
   js = []
 

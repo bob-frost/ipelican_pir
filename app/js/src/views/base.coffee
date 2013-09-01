@@ -35,10 +35,15 @@ class App.Views.Base extends Backbone.View
     @_updateNavElements([@searchButtons, @backToMap])
 
   showHome: -> 
-    unless @homeView 
+    unless @homeView
+      if @currentView 
+        @currentView.hide() 
       @homeView = new App.Views.Home
-      @main.append @homeView.hide().el
-    @_showView @homeView.render()
+      @main.append @homeView.el
+      @homeView.render()
+      @currentView = @homeView
+    else
+      @_showView @homeView
 
     $('body').attr('class', 'bg')
     @_updateNavElements([@languageBar, @searchButtons])
