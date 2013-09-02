@@ -6,7 +6,6 @@ class App.Views.Base extends Backbone.View
     'click .search-form .btn' : '_submitSearchForm'
 
   initialize: (options) ->
-    @header = $('#header')
     @main = $('#main')
     @render()
 
@@ -18,7 +17,16 @@ class App.Views.Base extends Backbone.View
     App.router.on("route:company", @showCompany, @)
 
   render: =>
+    if @header
+      $('select', $(header)).each ->
+        $(this).select2 'destroy'
+    @header = $('#header')
     @header.html(JST['header'])
+
+    $('select', $(header)).select2
+      width: 692
+      containerCssClass: 'large'
+      dropdownCssClass: 'large'
 
     @searchButtons = $('#search-buttons')
     @languageBar = $('#language-bar')
@@ -61,7 +69,7 @@ class App.Views.Base extends Backbone.View
     $('body').attr('class', '')
 
     $form = $("#search-form-#{attr}")
-    $form.find('select, input').first().val(value)
+    $("select.search-field[name='#{attr}'], input.search-field[name='#{attr}']").val(value).change()
     @_updateNavElements([@clearSearch, $form])
 
   showCompany: (locale, id) ->
@@ -94,7 +102,7 @@ class App.Views.Base extends Backbone.View
     @_updateNavElements([@clearSearch, $("#search-form-#{$caller.data('type')}")])
 
   _clearSearchForm: (event) ->
-    $('.search-form input, .search-form select').val('')
+    $('select.search-field, input.search-field').val('').change()
     if App.router.current == 'searchCompanies'
       App.router.navigate "#!/#{App.getLocale()}/companies", true
     else
@@ -109,8 +117,9 @@ class App.Views.Base extends Backbone.View
   _submitSearchForm: (event) ->
     $caller = $(event.target)
     $form = $caller.closest('.search-form')
-    attr = $form.attr('id').replace('search-form-', '')
-    val = $.trim($form.find('select, input').first().val())
+    $field = $('select.search-field, input.search-field', $form).first()
+    attr = $field.attr('name')
+    val = $.trim($field.val())
     if val.length > 0
       if App.router.current == 'home' && attr != 'name'
         @homeView.search attr, val

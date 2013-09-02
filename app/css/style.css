@@ -434,3 +434,25 @@ body.loading #main-loader{
   padding-right: 0;
   margin: -10px -10px 0 0;
 }
+
+/* Select2 */
+
+.select2-results .select2-highlighted{
+  background: #f08d83;
+}
+
+.select2-container.large .select2-choice{
+  height: 48px;
+  line-height: 48px;
+  padding-left: 25px;
+  font-size: 24px;
+}
+.select2-container.large .select2-arrow b{
+  background-position: 0 10px;
+}
+.select2-container.large.select2-dropdown-open .select2-arrow b{
+  background-position: -18px 10px;
+}
+.select2-drop.large .select2-search input{
+  background-image: none !important;
+}

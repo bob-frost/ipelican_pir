@@ -5,14 +5,14 @@ window.JST['header'] = _.template(
         <div class='search-form nav-el' id='search-form-name' style='display:none'>
           <span class='label'><%= I18n.t('search.enter_label') %></span>
           &nbsp;
-          <input type='text' placeholder='<%= I18n.t('search.by_name_placeholder') %>' />
+          <input type='text' name='name' class='search-field' placeholder='<%= I18n.t('search.by_name_placeholder') %>' />
           <button class='btn btn-large'><%= I18n.t('search.submit') %></button>
         </div>
         <div class='search-form nav-el' id='search-form-activity_types' style='display:none'>
           <span class='label'><%= I18n.t('search.choose_label') %></span>
           &nbsp;
-          <select>
-            <option value=''><%= I18n.t('search.by_activity_type_placeholder') %></option>
+          <select name='activity_types' class='search-field' data-placeholder='<%= I18n.t('search.by_activity_type_placeholder') %>'>
+            <option></option>
             <% _.each(App.activityTypes, function(opt){ %>
               <option value='<%= opt %>'><%= opt %></option>
             <% }) %>
@@ -22,8 +22,8 @@ window.JST['header'] = _.template(
         <div class='search-form nav-el' id='search-form-brands' style='display:none'>
           <span class='label'><%= I18n.t('search.choose_label') %></span>
           &nbsp;
-          <select>
-            <option value=''><%= I18n.t('search.by_brand_placeholder') %></option>
+          <select name='brands' class='search-field' data-placeholder='<%= I18n.t('search.by_brand_placeholder') %>'>
+            <option></option>
             <% _.each(App.brands, function(opt){ %>
               <option value='<%= opt %>'><%= opt %></option>
             <% }) %>
@@ -33,8 +33,8 @@ window.JST['header'] = _.template(
         <div class='search-form nav-el' id='search-form-equipment_types' style='display:none'>
           <span class='label'><%= I18n.t('search.choose_label') %></span>
           &nbsp;
-          <select>
-            <option value=''><%= I18n.t('search.by_equipment_type_placeholder') %></option>
+          <select name='equipment_types' class='search-field' data-placeholder='<%= I18n.t('search.by_equipment_type_placeholder') %>'>
+            <option></option>
             <% _.each(App.equipmentTypes, function(opt){ %>
               <option value='<%= opt %>'><%= opt %></option>
             <% }) %>
