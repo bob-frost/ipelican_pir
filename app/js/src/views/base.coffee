@@ -32,6 +32,7 @@ class App.Views.Base extends Backbone.View
     @languageBar = $('#language-bar')
     @backToMap = $('#back-to-map')
     @clearSearch = $('#clear-search')
+    @searchSummary = $('#search-summary')
 
   notFound: ->
     unless @notFoundView 
@@ -70,7 +71,7 @@ class App.Views.Base extends Backbone.View
 
     $form = $("#search-form-#{attr}")
     $("select.search-field[name='#{attr}'], input.search-field[name='#{attr}']").val(value).change()
-    @_updateNavElements([@clearSearch, $form])
+    @_updateNavElements([@clearSearch, @searchSummary])
 
   showCompany: (locale, id) ->
     company = App.companies.get(id)
@@ -85,6 +86,10 @@ class App.Views.Base extends Backbone.View
 
     $('body').attr('class', '')
     @_updateNavElements([@searchButtons, @backToMap])
+
+  updateSearchSummary: (attr, value, count) ->
+    $('.title', @searchSummary).text "#{I18n.t "search.result_titles.#{attr}"} - #{value}"
+    $('.count', @searchSummary).text I18n.t('search.result_stands', {count: count})
 
   _showView: (view) ->
     if @currentView 
@@ -123,6 +128,7 @@ class App.Views.Base extends Backbone.View
     if val.length > 0
       if App.router.current == 'home' && attr != 'name'
         @homeView.search attr, val
+        @_updateNavElements([@clearSearch, @searchSummary])
       else
         App.router.navigate "#!/#{App.getLocale()}/companies/#{attr}/#{val}", true
 

@@ -196,6 +196,7 @@ body.loading #main-loader{
 
 #search-bar{
   float: left;
+  max-width: 980px;
 }
 #search-bar .label{
   display: inline-block;
@@ -215,6 +216,19 @@ body.loading #main-loader{
 }
 #search-form-name input[type=text]{
   width: 640px;  
+}
+
+#search-summary{
+  font-size: 18px;
+  line-height: 20px;
+  color: #343434;
+}
+#search-summary .title{
+  margin-bottom: 6px;
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: bold;
+  color: #000;
 }
 
 #language-bar{

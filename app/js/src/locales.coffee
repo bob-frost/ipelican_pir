@@ -1,7 +1,12 @@
 window.I18n ||= {}
+
+I18n.pluralizationRules.ru = (n) ->
+  (if n % 10 is 1 and n % 100 isnt 11 then "one" else (if [2, 3, 4].indexOf(n % 10) >= 0 and [12, 13, 14].indexOf(n % 100) < 0 then "few" else (if n % 10 is 0 or [5, 6, 7, 8, 9].indexOf(n % 10) >= 0 or [11, 12, 13, 14].indexOf(n % 100) >= 0 then "many" else "other")))
+
 window.I18n.translations =
   ru:
     search:
+      title: 'Поиск'
       label: 'Искать по:'
       enter_label: 'Введите'
       choose_label: 'Выберите'
@@ -15,7 +20,22 @@ window.I18n.translations =
       by_equipment_type_placeholder: 'тип оборудования'
       submit: 'Найти'
       clear: 'Очистить'
+      results: 'Результаты поиска'
+      result_stands:
+        one: '1 стенд'
+        few: '{{count}} стенда'
+        many: '{{count}} стендов'
+        other: '{{count}} стенда'
+      result_titles:
+        name: 'Название компании'
+        activity_types: 'Вид деятельности'
+        brands: 'Бренд'
+        equipment_types: 'Тип оборудования'
     back_to_map: 'Вернуться к карте'
+    name: ''
+    activity_types: ''
+    brands: ''
+    equipment_types: ''
     location: 'Адрес' 
     phone: 'Телефон'
     email: 'Email'
@@ -24,6 +44,7 @@ window.I18n.translations =
 
   en:
     search:
+      title: 'Search'
       label: 'Search by:'
       enter_label: 'Enter'
       choose_label: 'Choose'
@@ -37,7 +58,18 @@ window.I18n.translations =
       by_equipment_type_placeholder: 'equipment type'
       submit: 'Search'
       clear: 'Clear'
+      results: 'Search results'
+      result_stands:
+        zero: '0 stands'
+        one: '1 stand'
+        other: '{{count}} stands'
+      result_titles:
+        name: 'Company name'
+        activity_types: 'Activity type'
+        brands: 'Brand'
+        equipment_types: 'Equipment type'
     back_to_map: 'Back to map'
+    equipment_types: ''
     location: 'Location' 
     phone: 'Phone'
     email: 'Email'

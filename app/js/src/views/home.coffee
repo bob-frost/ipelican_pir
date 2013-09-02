@@ -31,6 +31,7 @@ class App.Views.Home extends App.Views.Abstract
     companies = App.companies.search(attr, value)
     _.each companies, (company) ->
       view._setMapMarker company.get('id')
+    @_updateSearchSummary attr, value, companies.length
       
   clearMap: ->
     $('area').mapster('deselect')
@@ -129,4 +130,7 @@ class App.Views.Home extends App.Views.Abstract
   _unsetMapTooltip: ->
     if @$mapTooltip
       @$mapTooltip.remove()
+
+  _updateSearchSummary: (attr, value, count) ->
+    App.baseView.updateSearchSummary attr, value, count
    

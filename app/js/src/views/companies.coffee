@@ -28,5 +28,11 @@ class App.Views.Companies extends App.Views.Abstract
     nextPage = if end < total  then location.hash.replace(/\/page\/\d+/, '').replace(/\/$/, '') + "/page/#{page + 1}" else null
 
     @$el.html(JST['companies']({columns: columns, prevPage: prevPage, nextPage: nextPage}))
+
+    @_updateSearchSummary attr, value, total
+    
     @
+
+  _updateSearchSummary: (attr, value, count) ->
+    App.baseView.updateSearchSummary attr, value, count
 

@@ -2,6 +2,11 @@ window.JST['header'] = _.template(
   "<div>
     <div id='header-inner'>
       <div id='search-bar'>
+        <div id='search-summary' class='nav-el' style='display:none'>
+          <div class='title'><%= I18n.t('search.title') %></div>
+          <%= I18n.t('search.results') %>: <span class='count'></span>
+        </div>
+
         <div class='search-form nav-el' id='search-form-name' style='display:none'>
           <span class='label'><%= I18n.t('search.enter_label') %></span>
           &nbsp;
