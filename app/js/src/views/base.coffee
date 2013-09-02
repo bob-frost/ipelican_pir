@@ -33,6 +33,11 @@ class App.Views.Base extends Backbone.View
     @backToMap = $('#back-to-map')
     @clearSearch = $('#clear-search')
     @searchSummary = $('#search-summary')
+    
+    $('body').removeClass('loading')
+    _.each App.locales, (locale) ->
+      $('body').removeClass(locale)
+    $('body').addClass(App.getLocale())
 
   notFound: ->
     unless @notFoundView 
@@ -40,7 +45,7 @@ class App.Views.Base extends Backbone.View
       @main.append @notFoundView.hide().render().el
     @_showView @notFoundView
 
-    $('body').attr('class', 'bg')
+    $('body').removeClass('bg')
     @_updateNavElements([@searchButtons, @backToMap])
 
   showHome: -> 
@@ -55,23 +60,23 @@ class App.Views.Base extends Backbone.View
       @homeView.clearMap()
       @_showView @homeView
 
-    $('body').attr('class', 'bg')
+    $('body').addClass('bg')
     @_updateNavElements([@languageBar, @searchButtons])
 
   showCompanies: (locale, page) -> 
     @_showCompanies page
 
-    $('body').attr('class', '')
+    $('body').removeClass('bg')
     @_updateNavElements([@searchButtons, @backToMap])
 
   searchCompanies: (locale, attr, value, page) ->
     @_showCompanies page, attr, value
 
-    $('body').attr('class', '')
+    $('body').removeClass('bg')
+    @_updateNavElements([@clearSearch, @searchSummary])
 
     $form = $("#search-form-#{attr}")
     $("select.search-field[name='#{attr}'], input.search-field[name='#{attr}']").val(value).change()
-    @_updateNavElements([@clearSearch, @searchSummary])
 
   showCompany: (locale, id) ->
     company = App.companies.get(id)
@@ -84,7 +89,7 @@ class App.Views.Base extends Backbone.View
     @companyView.setCompany(company)
     @_showView @companyView.render()
 
-    $('body').attr('class', '')
+    $('body').removeClass('bg')
     @_updateNavElements([@searchButtons, @backToMap])
 
   updateSearchSummary: (attr, value, count) ->

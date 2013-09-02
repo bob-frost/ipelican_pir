@@ -2,10 +2,10 @@ window.JST['companies'] = _.template(
   "
   <div id='companies-list'>
     <% if(prevPage){ %>
-      <a href='<%= prevPage %>' id='prev-page'></a>
+      <a href='<%= prevPage %>' id='prev-page'><span></span></a>
     <% } %>
     <% if(nextPage){ %>
-      <a href='<%= nextPage %>' id='next-page'></a>
+      <a href='<%= nextPage %>' id='next-page'><span></span></a>
     <% } %>
     <% var lastLetter = null %>
     <% _.each(columns, function(column){ %>

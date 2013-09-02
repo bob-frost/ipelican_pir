@@ -84,6 +84,7 @@ body.bg{
 
 #wrapper{
   min-height: 100%;
+  min-width: 1280px;
 }
 
 #header{
@@ -203,6 +204,7 @@ body.loading #main-loader{
   vertical-align: middle;
   width: 120px;
   font-size: 24px;
+  text-align: center;
 }
 #search-buttons .btn{
   width: 198px;
@@ -310,27 +312,40 @@ body.loading #main-loader{
   display: block;
   width: 70px;
   height: 100%;
+}
+#prev-page span, #next-page span{
+  position: absolute;
+  top: 50%;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 111px;
+  margin-top: -55px;
   background: url(../images/spr.png) no-repeat;
 }
 #prev-page{
   left: 0;
-  background-position: 0 50%;
 }
-#prev-page:hover{
-  background-position: -70px 50%;
+#prev-page span{
+  background-position: 0 0;
 }
-#prev-page:active{
-  background-position: -140px 50%;
+#prev-page:hover span{
+  background-position: -70px 0;
+}
+#prev-page:active span, #prev-page span:active{
+  background-position: -140px 0;
 }
 #next-page{
   right: 0;
-  background-position: -210px 50%;
 }
-#next-page:hover{
-  background-position: -280px 50%;
+#next-page span{
+  background-position: -210px 0;
 }
-#next-page:active{
-  background-position: -350px 50%;
+#next-page:hover span{
+  background-position: -280px 0;
+}
+#next-page:active span, #next-page span:active{
+  background-position: -350px 0;
 }
 
 /* Company */
@@ -447,6 +462,18 @@ body.loading #main-loader{
   padding-left: 0;
   padding-right: 0;
   margin: -10px -10px 0 0;
+}
+
+#business-zone-area{
+  position: absolute;
+  top: 148px;
+  right: 40px;
+  width: 42px;
+  height: 158px;
+  background: url(../images/spr.png) no-repeat -455px 0;
+}
+.en #business-zone-area{
+  background-position: -497px 0;
 }
 
 /* Select2 */
