@@ -18,7 +18,7 @@ class App.Views.Home extends App.Views.Abstract
       mapKey: 'title'
       showToolTip: false
       onClick: (e) ->
-        $('.map-marker-wrapper div').show()
+        view._showHiddenMarkers()
         if e.selected
           view._setMapTooltip(e.key)
         else
@@ -87,12 +87,12 @@ class App.Views.Home extends App.Views.Abstract
       $marker.on 'click', (e) ->
         $('area').mapster('deselect')
         if $('div', $(this)).is(':visible')
-          $('.map-marker-wrapper div').show()
+          view._showHiddenMarkers()
           $('div', $(this)).hide()
           view._setMapTooltip key
         else
           view._unsetMapTooltip()
-          $('.map-marker-wrapper div').show()
+          view._showHiddenMarkers()
 
       @$el.append($marker)
       @mapMarkers[key] = $marker
@@ -107,6 +107,9 @@ class App.Views.Home extends App.Views.Abstract
     _.each @mapMarkers, (marker, key) ->
       view._unsetMapMarker key
 
+  _showHiddenMarkers: ->
+    $('.map-marker-wrapper div').show()
+
   _setMapTooltip: (key) ->
     @_unsetMapTooltip()
     view = @
@@ -120,6 +123,7 @@ class App.Views.Home extends App.Views.Abstract
       $('.close', @$mapTooltip).on 'click', (e) ->
         $('area').mapster('deselect')
         view._unsetMapTooltip()
+        view._showHiddenMarkers()
       @$el.append @$mapTooltip
 
   _unsetMapTooltip: ->
