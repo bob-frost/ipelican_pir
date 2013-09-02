@@ -78,24 +78,24 @@ class App.Views.Home extends App.Views.Abstract
 
   _setMapMarker: (key) ->
     view = @
-    if !@mapMarkers[key] && $area = @_getMapArea(key)
-      $area.mapster('select')
-      areaProp = @_calculateMapAreaWrapper(key)
-      areaProp['z-index'] = areaProp.top + areaProp.height
-      $marker = $("<div class='map-marker-wrapper' title='#{key}'><div></div></div>")
-      $marker.css areaProp
-      $marker.on 'click', (e) ->
-        $('area').mapster('deselect')
-        if $('div', $(this)).is(':visible')
-          view._showHiddenMarkers()
-          $('div', $(this)).hide()
-          view._setMapTooltip key
-        else
-          view._unsetMapTooltip()
-          view._showHiddenMarkers()
+    if areaProp = @_calculateMapAreaWrapper(key)
+      if !@mapMarkers[key]
+        areaProp['z-index'] = areaProp.top + areaProp.height
+        $marker = $("<div class='map-marker-wrapper' title='#{key}'><div></div></div>")
+        $marker.css areaProp
+        $marker.on 'click', (e) ->
+          $('area').mapster('deselect')
+          if $('div', $(this)).is(':visible')
+            view._showHiddenMarkers()
+            $('div', $(this)).hide()
+            view._setMapTooltip key
+          else
+            view._unsetMapTooltip()
+            view._showHiddenMarkers()
 
-      @$el.append($marker)
-      @mapMarkers[key] = $marker
+        @$el.append($marker)
+        @mapMarkers[key] = $marker
+      @mapMarkers[key].show()
 
   _unsetMapMarker: (key) ->
     if $marker = @mapMarkers[key]
