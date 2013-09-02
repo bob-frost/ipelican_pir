@@ -23,3 +23,9 @@ class App.Models.Company extends Backbone.Model
     return null unless @get('site')
     @get('site').replace(/^https?:\/\//, '').replace(/\/$/, '')
 
+  acivityTypesText: ->
+    if @get('activity_types').length > 0
+      @get('activity_types').join ', '
+    else
+      null
+

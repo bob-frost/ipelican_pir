@@ -43,6 +43,7 @@ class App.Views.Base extends Backbone.View
       @homeView.render()
       @currentView = @homeView
     else
+      @homeView.clearMap()
       @_showView @homeView
 
     $('body').attr('class', 'bg')
@@ -96,11 +97,10 @@ class App.Views.Base extends Backbone.View
     $('.search-form input, .search-form select').val('')
     if App.router.current == 'searchCompanies'
       App.router.navigate "#!/#{App.getLocale()}/companies", true
-    else if App.router.current == 'searchMap' 
-      App.router.navigate "#!/#{App.getLocale()}", true
     else
       navEl = [@searchButtons]
       if App.router.current == 'home'
+        @homeView.clearMap()
         navEl.push(@languageBar)
       else
         navEl.push(@backToMap)
@@ -109,9 +109,13 @@ class App.Views.Base extends Backbone.View
   _submitSearchForm: (event) ->
     $caller = $(event.target)
     $form = $caller.closest('.search-form')
+    attr = $form.attr('id').replace('search-form-', '')
     val = $.trim($form.find('select, input').first().val())
     if val.length > 0
-      App.router.navigate "#!/#{App.getLocale()}/companies/#{$form.attr('id').replace('search-form-', '')}/#{val}", true
+      if App.router.current == 'home' && attr != 'name'
+        @homeView.search attr, val
+      else
+        App.router.navigate "#!/#{App.getLocale()}/companies/#{attr}/#{val}", true
 
   _updateNavElements: (elmsToDisplay) ->
     $('.nav-el').not(elmsToDisplay).hide()

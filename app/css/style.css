@@ -98,6 +98,7 @@ body.bg{
 }
 
 #main{
+  position: relative;
   width: 1240px;
   margin: 0 auto;
   padding: 80px 20px 133px 20px;
@@ -138,7 +139,7 @@ body.loading #main-loader{
   display: inline-block;
   *display: inline;
   margin: 0;
-  padding: 14px 20px;
+  padding: 9px 20px;
   font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
   font-size: 18px;
   line-height: 20px;
@@ -167,6 +168,9 @@ body.loading #main-loader{
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
      -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
           box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.btn-large{
+  padding: 14px 20px;
 }
 .btn:hover,
 .btn:focus{
@@ -352,4 +356,81 @@ body.loading #main-loader{
   padding-top: 50px;
   border-top: 1px solid #d9dcdc;
   color: #3d3f40;
+}
+
+/* Map */
+
+.map-marker-wrapper{
+  position: absolute;
+  z-index: 2;
+  cursor: pointer;
+  background: #f08d83;
+  overflow: visible;
+}
+.map-marker-wrapper div{
+  position: absolute;
+  bottom: 60%;
+  left: 50%;
+  width: 35px;
+  height: 53px;
+  margin-left: -17px;
+  background: url(../images/spr.png) no-repeat -420px 0;
+}
+
+.map-tooltip-wrapper{
+  position: absolute;
+  z-index: 3;
+  height: 0;
+  overflow: visible;
+}
+.map-tooltip{
+  position: absolute;
+  bottom: 15px;
+  left: -93px;
+  width: 400px;
+  margin-left: 50%;
+  padding: 20px 20px 15px 20px;
+  background: #FFF;
+  -webkit-box-shadow: 0 0 15px 3px #575239;
+     -moz-box-shadow: 0 0 15px 3px #575239;
+          box-shadow: 0 0 15px 3px #575239;
+}
+
+.map-tooltip .arr{
+  position: absolute;
+  bottom: -15px;
+  left: 80px;
+  width: 26px;
+  height: 15px;
+  background: url(../images/spr.png) no-repeat -420px -53px;
+}
+.map-tooltip img{
+  display: block;
+  width: 100px;
+  float: left;
+}
+.map-tooltip .details{
+  width: 235px;
+  float: left;
+  margin-left: 20px;
+}
+.map-tooltip .details .name{
+  font-size: 24px;
+  line-height: 26px;
+  font-weight: bold;
+}
+.map-tooltip .details .description{
+  margin-top: 8px;
+  font-size: 16px;
+  line-height: 18px;
+}
+.map-tooltip .details .btn{
+  margin-top: 15px;
+}
+.map-tooltip .close{
+  float: right;
+  width: 38px;
+  padding-left: 0;
+  padding-right: 0;
+  margin: -10px -10px 0 0;
 }

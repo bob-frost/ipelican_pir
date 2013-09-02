@@ -1,8 +1,8 @@
 class App.Collections.Companies extends Backbone.Collection
   model: App.Models.Company
 
-  comparator = (company) ->
-    company.get 'name'
+  comparator: (company) ->
+    company.get('name').charAt(0).toUpperCase()
 
   search: (attr, value) ->
     return @models unless attr && value

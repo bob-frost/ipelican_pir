@@ -2,14 +2,34 @@ window.JST['home'] = _.template(
   "
     <img src='images/map.png' usemap='#map' id='map' width='1246' height='519' />
     <map name='map'>
-      <% _.each(STANDS, function(stand){ %>
+      <% _.each(STANDS, function(data, id){ %>
         <area
          href='#'
          shape='poly'
-         alt='<%= stand.id %>'
-         title='<%= stand.id %>'
-         coords='<%= stand.coords %>' />
+         alt='<%= id %>'
+         title='<%= id %>'
+         coords='<%= data.coords %>' />
       <% }) %>
     </map>
+  "
+)
+
+window.JST['mapTooltip'] = _.template(
+  "
+    <div class='map-tooltip-wrapper'>
+      <div class='map-tooltip'>
+        <img src='<%= company.image() %>' />
+        <div class='details'>
+          <div class='name'><%= company.get('name') %></div>
+          <% if(company.acivityTypesText()){ %>
+            <div class='description'><%= company.acivityTypesText() %></div>
+          <% } %>
+          <div class='clr'></div>
+          <a href='#!/<%= App.getLocale() %>/companies/<%= company.get('id') %>' class='btn'><%= I18n.t('read_more') %></a>
+        </div>
+        <span class='btn close'>X</span>
+        <div class='arr'></div>
+      </div>
+    </div>
   "
 )

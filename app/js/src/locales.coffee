@@ -20,6 +20,7 @@ window.I18n.translations =
     phone: 'Телефон'
     email: 'Email'
     site: 'Веб-сайт'
+    read_more: 'Читать подробнее'
 
   en:
     search:
@@ -41,3 +42,4 @@ window.I18n.translations =
     phone: 'Phone'
     email: 'Email'
     site: 'Website'
+    read_more: 'Read more'
