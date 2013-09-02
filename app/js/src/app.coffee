@@ -39,9 +39,9 @@ window.App =
   _loadData: ->
     @companies ||= new App.Collections.Companies
     @companies.reset DATA[@getLocale()]
-    @activityTypes = _.uniq(_.flatten(@companies.pluck('activity_types')))
-    @equipmentTypes = _.uniq(_.flatten(@companies.pluck('equipment_types')))
-    @brands = _.uniq(_.flatten(@companies.pluck('brands')))
+    @activityTypes = _.uniq(_.flatten(@companies.pluck('activity_types'))).sort()
+    @equipmentTypes = _.uniq(_.flatten(@companies.pluck('equipment_types'))).sort()
+    @brands = _.uniq(_.flatten(@companies.pluck('brands'))).sort()
 
 $ ->
   App.init()
