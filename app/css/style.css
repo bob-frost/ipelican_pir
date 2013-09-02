@@ -379,7 +379,7 @@ body.loading #main-loader{
 
 .map-tooltip-wrapper{
   position: absolute;
-  z-index: 3;
+  z-index: 9999;
   height: 0;
   overflow: visible;
 }

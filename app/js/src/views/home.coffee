@@ -81,6 +81,7 @@ class App.Views.Home extends App.Views.Abstract
     if !@mapMarkers[key] && $area = @_getMapArea(key)
       $area.mapster('select')
       areaProp = @_calculateMapAreaWrapper(key)
+      areaProp['z-index'] = areaProp.top + areaProp.height
       $marker = $("<div class='map-marker-wrapper' title='#{key}'><div></div></div>")
       $marker.css areaProp
       $marker.on 'click', (e) ->
