@@ -90,7 +90,7 @@ task :parse do
       end    
     end
 
-    json = JSON.pretty_generate(data)
+    json = JSON.generate(data)
     locale = File.basename(path, '.xlsx')
     res << "\nwindow.DATA.#{locale} = #{json};"
   end
@@ -106,18 +106,17 @@ task :compile do
   js = []
 
   vendors.each do |vendor|
-    js << File.read(File.expand_path("../app/js/vendor/#{vendor}.js", __FILE__))
+    js << File.read(File.expand_path("../src/js/vendor/#{vendor}.js", __FILE__))
   end
 
   coffee = []
   src_dirs.each do |dir|
-    Dir.glob(File.expand_path("../app/js/src/#{dir}/*.coffee", __FILE__)) do |file|
+    Dir.glob(File.expand_path("../src/js/app/#{dir}/*.coffee", __FILE__)) do |file|
       coffee << File.read(file)
     end
   end
   js << CoffeeScript.compile(coffee.join("\n"))
-  js = js.join("\n")
-  # js = Uglifier.compile js.join("\n")
+  js = Uglifier.compile js.join("\n")
 
   filename = File.expand_path('../app/js/app.js', __FILE__)
   File.open(filename, 'w') { |file| file.write(js) }
