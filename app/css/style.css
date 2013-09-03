@@ -130,7 +130,7 @@ body.bg{
   z-index: 1000;
   top: 0;
   left: 0;
-  background: #DDD url(../images/loader.gif) 50% 50% no-repeat;
+  background: #DDD url(../images/main-loader.gif) 50% 50% no-repeat;
 }
 body.loading #main-loader{
   display: block;
