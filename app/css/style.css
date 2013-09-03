@@ -197,7 +197,9 @@ body.loading #main-loader{
 
 #search-bar{
   float: left;
-  max-width: 980px;
+  width: 1000px;
+  height: 50px;
+  white-space: nowrap;
 }
 #search-bar .label{
   display: inline-block;
