@@ -522,3 +522,9 @@ body.loading #main-loader{
 .select2-drop.large .select2-search input{
   background-image: none !important;
 }
+
+
+#not-found{
+  text-align: center;
+  font-size: 18px;
+}

@@ -46,8 +46,8 @@ class App.Views.Base extends Backbone.View
   notFound: ->
     unless @notFoundView 
       @notFoundView = new App.Views.NotFound
-      @$main.append @notFoundView.hide().render().el
-    @_showView @notFoundView
+      @$main.append @notFoundView.hide().el
+    @_showView @notFoundView.render()
 
     $('body').removeClass('bg')
     @_updateNavElements([@$searchButtons, @$backToMap])
