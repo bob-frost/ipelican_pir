@@ -3,7 +3,8 @@ class App.Views.Base extends Backbone.View
   events: 
     'click #search-buttons .btn' : '_showSearchForm'
     'click #clear-search' : '_clearSearchForm'
-    'click .search-form .btn' : '_submitSearchForm'
+    'click .search-form .btn' : '_submitButtonClick'
+    'keydown #search-form-name .search-field' : '_searchTextFieldKeydown'
 
   initialize: (options) ->
     @$main = $('#main')
@@ -156,9 +157,18 @@ class App.Views.Base extends Backbone.View
     else
       App.router.navigate "#!/#{App.getLocale()}", true
 
-  _submitSearchForm: (event) ->
+  _submitButtonClick: (event) ->
     $caller = $(event.target)
     $form = $caller.closest('.search-form')
+    @_submitSearchForm $form
+
+  _searchTextFieldKeydown: (event) ->
+    if event.keyCode == 13
+      $caller = $(event.target)
+      $form = $caller.closest('.search-form')
+      @_submitSearchForm $form
+
+  _submitSearchForm: ($form) ->
     $field = $('select.search-field, input.search-field', $form).first()
     attr = $field.attr('name')
     val = $.trim($field.val())
