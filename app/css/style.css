@@ -426,7 +426,6 @@ body.loading #main-loader{
      -moz-box-shadow: 0 0 15px 3px #575239;
           box-shadow: 0 0 15px 3px #575239;
 }
-
 .map-tooltip .arr{
   position: absolute;
   bottom: -15px;
@@ -435,6 +434,26 @@ body.loading #main-loader{
   height: 15px;
   background: url(../images/spr.png) no-repeat -420px -53px;
 }
+.map-tooltip.rev-horiz{
+  left: auto;
+  margin-left: auto;
+  right: -93px;
+  margin-right: 50%;
+}
+.map-tooltip.rev-horiz .arr{
+  left: auto;
+  right: 80px;
+}
+.map-tooltip.rev-vert{
+  bottom: auto;
+  top: 15px;
+}
+.map-tooltip.rev-vert .arr{
+  bottom: auto;
+  top: -15px;
+  background: url(../images/spr.png) no-repeat -420px -68px;
+}
+
 .map-tooltip img{
   display: block;
   width: 100px;
