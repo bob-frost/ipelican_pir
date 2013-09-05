@@ -64,6 +64,7 @@ window.JST['header'] = _.template(
         <% } %>
       </div>
       <a href='#!/<%= App.getLocale() %>' class='btn btn-large nav-el' id='back-to-map' style='display:none'><%= I18n.t('back_to_map') %></a>
+      <a href='#!/<%= App.getLocale() %>/companies' class='btn btn-large nav-el' id='back-to-companies' style='display:none'><%= I18n.t('back_to_companies') %></a>
       <div class='clr'></div>
     </div>
   </div>"

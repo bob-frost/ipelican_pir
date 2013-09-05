@@ -197,7 +197,7 @@ body.loading #main-loader{
 
 #search-bar{
   float: left;
-  width: 1000px;
+  width: 980px;
   height: 50px;
   white-space: nowrap;
 }
@@ -253,7 +253,7 @@ body.loading #main-loader{
           border-radius: 0 4px 4px 0;
 }
 
-#back-to-map, #clear-search{
+#back-to-map, #back-to-companies, #clear-search{
   float: right;
 }
 

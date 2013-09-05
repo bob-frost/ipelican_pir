@@ -33,6 +33,7 @@ class App.Views.Base extends Backbone.View
     @$searchButtons = $('#search-buttons')
     @$languageBar = $('#language-bar')
     @$backToMap = $('#back-to-map')
+    @$backToCompanies = $('#back-to-companies')
     @$clearSearch = $('#clear-search')
     @$searchSummary = $('#search-summary')
     
@@ -102,7 +103,18 @@ class App.Views.Base extends Backbone.View
     @_showView @companyView.render()
 
     $('body').removeClass('bg')
-    @_updateNavElements([@$searchButtons, @$backToMap])
+    navEl = [@$searchButtons]
+    if App.router.previous.name == 'companies' || App.router.previous.name == 'searchCompanies'
+      navEl.push @$backToCompanies
+    else
+      navEl.push @$backToMap
+    @_updateNavElements navEl
+    if App.router.previous.name == 'companies' || App.router.previous.name == 'searchCompanies'
+      @$backToCompanies.attr('href', "##{App.router.previous.fragment}")
+    else if App.router.previous.name == 'searchHome'
+      @$backToMap.attr('href', "##{App.router.previous.fragment}")
+    else
+      @$backToMap.attr('href', "#!/#{App.getLocale()}/select/#{company.id}")
 
   updateSearchSummary: (attr, value, count) ->
     $('.title', @$searchSummary).text "#{I18n.t "search.result_titles.#{attr}"} - #{value}"
@@ -165,3 +177,5 @@ class App.Views.Base extends Backbone.View
     $('.nav-el').not(elmsToDisplay).hide()
     _.each elmsToDisplay, (el) ->
       el.show()
+    @$backToMap.attr('href', "#!/#{App.getLocale()}")
+    @$backToCompanies.attr('href', "#!/#{App.getLocale()}/companies")
