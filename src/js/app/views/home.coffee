@@ -76,12 +76,25 @@ class App.Views.Home extends App.Views.Abstract
     company = App.companies.get(key)
     if company
       areaProp = @_calculateMapAreaWrapper(key)
-      areaProp.top = areaProp.top + areaProp.height * 0.4
+      areaProp.top = areaProp.height * 0.4 + areaProp.top
       areaProp.height = 0
       @$mapTooltip = $(JST['mapTooltip'](company: company))
       @$mapTooltip.css(areaProp)
+      $el = @$mapTooltip
+      @$mapTooltip.imagesLoaded().always ->
+        $innerEl = $('.map-tooltip', $el)
+        
+        horiz = areaProp.width / 2 + areaProp.left
+        if horiz > 920
+          $innerEl.addClass 'rev-horiz'
+        vert = areaProp.top + $('#header').outerHeight() - $innerEl.outerHeight()
+        if vert < 30
+          $innerEl.addClass 'rev-vert'
+          $el.css 'top', areaProp.height * 0.6 + areaProp.top
+        $el.removeClass 'hidden'
+
       $('.close', @$mapTooltip).on 'click', (e) ->
-        $('area').mapster('deselect')
+        $('area').mapster 'deselect'
         view.unsetMapTooltip()
         view._showHiddenMarkers()
       @$el.append @$mapTooltip

@@ -414,6 +414,10 @@ body.loading #main-loader{
   height: 0;
   overflow: visible;
 }
+.map-tooltip-wrapper.hidden{
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
 .map-tooltip{
   position: absolute;
   bottom: 15px;

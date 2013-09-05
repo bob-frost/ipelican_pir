@@ -101,7 +101,7 @@ end
 
 task :compile do
   # To preserve order
-  vendors = ['jquery', 'underscore', 'backbone', 'i18n', 'jquery.imagemapster', 'select2']
+  vendors = ['jquery', 'imagesloaded', 'underscore', 'backbone', 'i18n', 'jquery.imagemapster', 'select2']
   src_dirs = ['', 'ext', 'templates', 'models', 'collections', 'views', 'routers']
   js = []
 

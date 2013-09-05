@@ -17,7 +17,7 @@ window.JST['home'] = _.template(
 
 window.JST['mapTooltip'] = _.template(
   "
-    <div class='map-tooltip-wrapper'>
+    <div class='map-tooltip-wrapper hidden'>
       <div class='map-tooltip'>
         <img src='<%= company.image() %>' />
         <div class='details'>
