@@ -18,12 +18,12 @@ class App.Views.Base extends Backbone.View
 
   render: =>
     if @header
-      $('select', $(header)).each ->
+      $('select', @header).each ->
         $(this).select2 'destroy'
     @header = $('#header')
     @header.html(JST['header'])
 
-    $('select', $(header)).select2
+    $('select', @header).select2
       width: 692
       containerCssClass: 'large'
       dropdownCssClass: 'large'
