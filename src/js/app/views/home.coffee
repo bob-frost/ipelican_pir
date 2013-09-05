@@ -34,9 +34,10 @@ class App.Views.Home extends App.Views.Abstract
     @_updateSearchSummary attr, value, companies.length
       
   clearMap: ->
-    $('area').mapster('deselect')
-    @unsetMapMarkers()
-    @unsetMapTooltip()
+    if App.router.previous.name
+      $('area').mapster('deselect')
+      @unsetMapMarkers()
+      @unsetMapTooltip()
 
   setMapMarker: (key) ->
     view = @
