@@ -41,6 +41,7 @@ window.I18n.translations =
     email: 'Email'
     site: 'Веб-сайт'
     read_more: 'Читать подробнее'
+    go_to_companies: 'Перейти к списку компаний'
 
   en:
     search:
@@ -75,3 +76,4 @@ window.I18n.translations =
     email: 'Email'
     site: 'Website'
     read_more: 'Read more'
+    go_to_companies: 'Show all companies'

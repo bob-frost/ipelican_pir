@@ -18,7 +18,8 @@ window.JST['companies'] = _.template(
             <% } %>
             <ul>
               <% _.each(group, function(company){ %>
-                <li><a href='#!/<%= App.getLocale() %>/companies/<%= company.get('id') %>'><%= company.get('name') %></a></li>
+                <% link = App.baseView.searchType == 'companies' ? ('companies/' + company.get('id')) : ('select/' + company.get('id')) %>
+                <li><a href='#!/<%= App.getLocale() %>/<%= link %>'><%= company.get('name') %></a></li>
               <% }); %>
             </ul>
             <div class='clr'></div>
@@ -27,6 +28,11 @@ window.JST['companies'] = _.template(
       </div>
     <% }); %>
     <div class='clr'></div>
+    <% if(App.baseView.searchType == 'map'){ %>
+      <br />
+      <a href='#!/<%= App.getLocale() %>/companies' class='btn'><%= I18n.t('go_to_companies') %></a>
+    <% } %>
   </div>
+  
   "
 )

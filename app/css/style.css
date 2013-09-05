@@ -281,7 +281,6 @@ body.loading #main-loader{
   position: relative;
   min-height: 100px;
   padding: 0 160px 0 160px;
-  text-transform: uppercase;
 }
 #companies-list .column{
   width: 25%;
@@ -289,6 +288,7 @@ body.loading #main-loader{
 }
 #companies-list .group{
   padding: 0 10px 0 60px;
+  text-transform: uppercase;
 }
 #companies-list .group + .group{
   margin-top: 50px;

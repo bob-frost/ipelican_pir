@@ -20,9 +20,9 @@ class App.Views.Home extends App.Views.Abstract
       onClick: (e) ->
         view._showHiddenMarkers()
         if e.selected
-          view._setMapTooltip(e.key)
+          view.setMapTooltip(e.key)
         else
-          view._unsetMapTooltip()
+          view.unsetMapTooltip()
     @
 
   search: (attr, value) ->
@@ -30,13 +30,69 @@ class App.Views.Home extends App.Views.Abstract
     view = @
     companies = App.companies.search(attr, value)
     _.each companies, (company) ->
-      view._setMapMarker company.get('id')
+      view.setMapMarker company.get('id')
     @_updateSearchSummary attr, value, companies.length
       
   clearMap: ->
     $('area').mapster('deselect')
-    @_unsetMapMarkers()
-    @_unsetMapTooltip()
+    @unsetMapMarkers()
+    @unsetMapTooltip()
+
+  setMapMarker: (key) ->
+    view = @
+    if areaProp = @_calculateMapAreaWrapper(key)
+      if !@mapMarkers[key]
+        areaProp['z-index'] = areaProp.top + areaProp.height
+        $marker = $("<div class='map-marker-wrapper' title='#{key}'><div></div></div>")
+        $marker.css areaProp
+        $marker.on 'click', (e) ->
+          $('area').mapster('deselect')
+          if $('div', $(this)).is(':visible')
+            view._showHiddenMarkers()
+            $('div', $(this)).hide()
+            view.setMapTooltip key
+          else
+            view.unsetMapTooltip()
+            view._showHiddenMarkers()
+
+        @$el.append($marker)
+        @mapMarkers[key] = $marker
+      @mapMarkers[key].show()
+
+  unsetMapMarker: (key) ->
+    if $marker = @mapMarkers[key]
+      $marker.remove()
+    delete @mapMarkers[key]
+
+  unsetMapMarkers: ->
+    view = @
+    _.each @mapMarkers, (marker, key) ->
+      view.unsetMapMarker key
+
+  setMapTooltip: (key) ->
+    @unsetMapTooltip()
+    view = @
+    company = App.companies.get(key)
+    if company
+      areaProp = @_calculateMapAreaWrapper(key)
+      areaProp.top = areaProp.top + areaProp.height * 0.4
+      areaProp.height = 0
+      @$mapTooltip = $(JST['mapTooltip'](company: company))
+      @$mapTooltip.css(areaProp)
+      $('.close', @$mapTooltip).on 'click', (e) ->
+        $('area').mapster('deselect')
+        view.unsetMapTooltip()
+        view._showHiddenMarkers()
+      @$el.append @$mapTooltip
+
+  unsetMapTooltip: ->
+    if @$mapTooltip
+      @$mapTooltip.remove()
+
+  selectMapArea: (key) ->
+    if $area = @_getMapArea(key)
+      $area.mapster 'select'
+      @setMapTooltip key
 
   _calculateMapAreaCoords: (key) ->
     key = key.toString()
@@ -77,59 +133,8 @@ class App.Views.Home extends App.Views.Abstract
     else
       null
 
-  _setMapMarker: (key) ->
-    view = @
-    if areaProp = @_calculateMapAreaWrapper(key)
-      if !@mapMarkers[key]
-        areaProp['z-index'] = areaProp.top + areaProp.height
-        $marker = $("<div class='map-marker-wrapper' title='#{key}'><div></div></div>")
-        $marker.css areaProp
-        $marker.on 'click', (e) ->
-          $('area').mapster('deselect')
-          if $('div', $(this)).is(':visible')
-            view._showHiddenMarkers()
-            $('div', $(this)).hide()
-            view._setMapTooltip key
-          else
-            view._unsetMapTooltip()
-            view._showHiddenMarkers()
-
-        @$el.append($marker)
-        @mapMarkers[key] = $marker
-      @mapMarkers[key].show()
-
-  _unsetMapMarker: (key) ->
-    if $marker = @mapMarkers[key]
-      $marker.remove()
-    delete @mapMarkers[key]
-
-  _unsetMapMarkers: ->
-    view = @
-    _.each @mapMarkers, (marker, key) ->
-      view._unsetMapMarker key
-
   _showHiddenMarkers: ->
     $('.map-marker-wrapper div').show()
-
-  _setMapTooltip: (key) ->
-    @_unsetMapTooltip()
-    view = @
-    company = App.companies.get(key)
-    if company
-      areaProp = @_calculateMapAreaWrapper(key)
-      areaProp.top = areaProp.top + areaProp.height * 0.4
-      areaProp.height = 0
-      @$mapTooltip = $(JST['mapTooltip'](company: company))
-      @$mapTooltip.css(areaProp)
-      $('.close', @$mapTooltip).on 'click', (e) ->
-        $('area').mapster('deselect')
-        view._unsetMapTooltip()
-        view._showHiddenMarkers()
-      @$el.append @$mapTooltip
-
-  _unsetMapTooltip: ->
-    if @$mapTooltip
-      @$mapTooltip.remove()
 
   _updateSearchSummary: (attr, value, count) ->
     App.baseView.updateSearchSummary attr, value, count

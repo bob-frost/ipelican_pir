@@ -7,6 +7,7 @@ class App.Routers.Base extends Backbone.Router
 
   initialize: (options) ->
     @route /^\!\/(ru|en)\/?$/, 'home'
+    @route /^\!\/(ru|en)\/select\/(.+)\/?$/, 'home'
     @route /^\!\/(ru|en)\/companies\/?$/, 'companies'
     @route /^\!\/(ru|en)\/companies\/(.+)\/?$/, 'company'
     @route /^\!\/(ru|en)\/companies\/page\/(\d+)\/?$/, 'companies'

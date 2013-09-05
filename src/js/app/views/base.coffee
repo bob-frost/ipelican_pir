@@ -7,6 +7,7 @@ class App.Views.Base extends Backbone.View
 
   initialize: (options) ->
     @$main = $('#main')
+    @searchType = null
     @render()
 
     App.on('change:locale', @render)
@@ -48,7 +49,9 @@ class App.Views.Base extends Backbone.View
     $('body').removeClass('bg')
     @_updateNavElements([@$searchButtons, @$backToMap])
 
-  showHome: -> 
+  showHome: (locale, preselect) -> 
+    @searchType = 'map'
+
     unless @homeView
       if @currentView 
         @currentView.hide() 
@@ -60,10 +63,15 @@ class App.Views.Base extends Backbone.View
       @homeView.clearMap()
       @_showView @homeView
 
+    if preselect
+      @homeView.selectMapArea preselect
+
     $('body').addClass('bg')
     @_updateNavElements([@$languageBar, @$searchButtons])
 
   showCompanies: (locale, page) -> 
+    @searchType = 'companies'
+
     @_showCompanies page
 
     $('body').removeClass('bg')
@@ -114,7 +122,10 @@ class App.Views.Base extends Backbone.View
   _clearSearchForm: (event) ->
     $('select.search-field, input.search-field').val('').change()
     if App.router.current == 'searchCompanies'
-      App.router.navigate "#!/#{App.getLocale()}/companies", true
+      if @searchType == 'companies'
+        App.router.navigate "#!/#{App.getLocale()}/companies", true
+      else
+        App.router.navigate "#!/#{App.getLocale()}", true
     else
       navEl = [@$searchButtons]
       if App.router.current == 'home'
@@ -131,9 +142,13 @@ class App.Views.Base extends Backbone.View
     attr = $field.attr('name')
     val = $.trim($field.val())
     if val.length > 0
-      if App.router.current == 'home' && attr != 'name'
-        @homeView.search attr, val
-        @_updateNavElements([@$clearSearch, @$searchSummary])
+      if App.router.current == 'home'
+        @searchType = 'map'
+        if attr == 'name'
+          App.router.navigate "#!/#{App.getLocale()}/companies/name/#{val}", true
+        else
+          @homeView.search attr, val
+          @_updateNavElements([@$clearSearch, @$searchSummary])
       else
         App.router.navigate "#!/#{App.getLocale()}/companies/#{attr}/#{val}", true
 
