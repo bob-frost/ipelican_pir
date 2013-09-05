@@ -56,7 +56,14 @@ task :parse do
           attributes[:name] = name
         end
 
-        %w(DESCRIPTION_COLUMN LOCATION_COLUMN PHONE_COLUMN SITE_COLUMN).each do |column|
+        desc = row[DESCRIPTION_COLUMN].to_s.strip
+        unless desc.empty?
+          # Get rid of escaped special symbols
+          desc = desc.gsub(/\\n/, '<br />').gsub(/\\r|\\/, '')
+          attributes[:description] = desc
+        end
+
+        %w(LOCATION_COLUMN PHONE_COLUMN SITE_COLUMN).each do |column|
           attribute = row[eval(column)].to_s.strip
           attributes[column.gsub('_COLUMN', '').downcase.to_sym] = attribute unless attribute.empty?
         end
