@@ -44,6 +44,7 @@ window.I18n.translations =
     read_more: 'Читать подробнее'
     go_to_companies: 'Перейти к списку компаний'
     page_not_found: 'Страница не найдена'
+    no_matches: 'Совпадений не найдено'
 
   en:
     search:
@@ -81,3 +82,12 @@ window.I18n.translations =
     read_more: 'Read more'
     go_to_companies: 'Show all companies'
     page_not_found: 'Page not found'
+    no_matches: 'No matches found'
+
+(($) ->
+  "use strict"
+  $.extend $.fn.select2.defaults,
+    formatNoMatches: ->
+      I18n.translations[App.getLocale()]['no_matches']
+
+) jQuery
