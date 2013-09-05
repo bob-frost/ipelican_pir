@@ -11,9 +11,9 @@ Backbone.Router::route = (route, name, callback) ->
   router = this
   Backbone.history.route route, (fragment) ->
     args = router._extractParameters(route, fragment)
-    router.before.apply router, [name, args]
+    router.before.apply router, [name, fragment, args]
     callback and callback.apply(router, args)
-    router.after.apply router, [name, args]
+    router.after.apply router, [name, fragment, args]
     router.trigger.apply router, ["route:" + name].concat(args)
     router.trigger "route", name, args
     Backbone.history.trigger "route", router, name, args

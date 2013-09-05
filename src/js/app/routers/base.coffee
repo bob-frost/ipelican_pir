@@ -3,7 +3,8 @@ class App.Routers.Base extends Backbone.Router
   routes:
     '*path' : 'notFound'
 
-  current: null
+  current: { name: null, fragment: null, args: [] }
+  previous: { name: null, fragment: null, args: [] }
 
   initialize: (options) ->
     @route /^\!\/(ru|en)\/?$/, 'home'
@@ -14,8 +15,14 @@ class App.Routers.Base extends Backbone.Router
     @route /^\!\/(ru|en)\/companies\/(name|activity_types|brands|equipment_types)\/(.+)\/?$/, 'searchCompanies'
     @route /^\!\/(ru|en)\/companies\/(name|activity_types|brands|equipment_types)\/(.+)\/page\/(\d+)\/?$/, 'searchCompanies'
 
-  before: (name, args) ->
-    @current = name
+  before: (name, fragment, args) ->
+    if @current
+      @previous = @current
+    @current =
+      name: name
+      fragment: fragment
+      args: args
+
     App.setLocale args[0]
 
   after: (name, args) ->

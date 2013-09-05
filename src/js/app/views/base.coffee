@@ -121,14 +121,14 @@ class App.Views.Base extends Backbone.View
 
   _clearSearchForm: (event) ->
     $('select.search-field, input.search-field').val('').change()
-    if App.router.current == 'searchCompanies'
+    if App.router.current.name == 'searchCompanies'
       if @searchType == 'companies'
         App.router.navigate "#!/#{App.getLocale()}/companies", true
       else
         App.router.navigate "#!/#{App.getLocale()}", true
     else
       navEl = [@$searchButtons]
-      if App.router.current == 'home'
+      if App.router.current.name == 'home'
         @homeView.clearMap()
         navEl.push(@$languageBar)
       else
@@ -142,7 +142,7 @@ class App.Views.Base extends Backbone.View
     attr = $field.attr('name')
     val = $.trim($field.val())
     if val.length > 0
-      if App.router.current == 'home'
+      if App.router.current.name == 'home'
         @searchType = 'map'
         if attr == 'name'
           App.router.navigate "#!/#{App.getLocale()}/companies/name/#{val}", true
