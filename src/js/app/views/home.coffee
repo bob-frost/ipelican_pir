@@ -2,16 +2,20 @@ class App.Views.Home extends App.Views.Abstract
 
   id: 'home'
 
+  events: 
+    'click #business-area' : '_showBusinessAreaTooltip'
+
   initialize: ->
     @mapMarkers = {}
 
   render: ->
     @$el.html(JST['home'])
 
-    @map = $('#map')
-    map = @map
+    @$map = $('#map')
+    @$businessArea = $('#business-area')
+
     view = @
-    @map.mapster
+    @$map.mapster
       highlight: false
       fillColor: 'f08d83'
       singleSelect: true
@@ -48,13 +52,11 @@ class App.Views.Home extends App.Views.Abstract
         $marker.css areaProp
         $marker.on 'click', (e) ->
           $('area').mapster('deselect')
-          if $('div', $(this)).is(':visible')
-            view._showHiddenMarkers()
-            $('div', $(this)).hide()
+          if view._markerIsVisible(key)
             view.setMapTooltip key
+            view._hideMarker key
           else
             view.unsetMapTooltip()
-            view._showHiddenMarkers()
 
         @$el.append($marker)
         @mapMarkers[key] = $marker
@@ -72,36 +74,15 @@ class App.Views.Home extends App.Views.Abstract
 
   setMapTooltip: (key) ->
     @unsetMapTooltip()
-    view = @
     company = App.companies.get(key)
     if company
-      areaProp = @_calculateMapAreaWrapper(key)
-      areaProp.top = areaProp.height * 0.4 + areaProp.top
-      areaProp.height = 0
-      @$mapTooltip = $(JST['mapTooltip'](company: company))
-      @$mapTooltip.css(areaProp)
-      $el = @$mapTooltip
-      @$mapTooltip.imagesLoaded().always ->
-        $innerEl = $('.map-tooltip', $el)
-        
-        horiz = areaProp.width / 2 + areaProp.left
-        if horiz > 920
-          $innerEl.addClass 'rev-horiz'
-        vert = areaProp.top + $('#header').outerHeight() - $innerEl.outerHeight()
-        if vert < 30
-          $innerEl.addClass 'rev-vert'
-          $el.css 'top', areaProp.height * 0.6 + areaProp.top
-        $el.removeClass 'hidden'
-
-      $('.close', @$mapTooltip).on 'click', (e) ->
-        $('area').mapster 'deselect'
-        view.unsetMapTooltip()
-        view._showHiddenMarkers()
-      @$el.append @$mapTooltip
+      @_displayTooltip JST['mapCompanyTooltip'](company: company), @_calculateMapAreaWrapper(key)
 
   unsetMapTooltip: ->
+    @_showHiddenMarkers()
     if @$mapTooltip
       @$mapTooltip.remove()
+      @$mapTooltip = null
 
   selectMapArea: (key) ->
     if $area = @_getMapArea(key)
@@ -150,6 +131,53 @@ class App.Views.Home extends App.Views.Abstract
   _showHiddenMarkers: ->
     $('.map-marker-wrapper div').show()
 
+  _markerIsVisible: (key) ->
+    @mapMarkers[key] && $('div', @mapMarkers[key]).is(':visible')
+
+  _hideMarker: (key) ->
+    if $marker = @mapMarkers[key]
+      $('div', $marker).hide()
+
   _updateSearchSummary: (attr, value, count) ->
     App.baseView.updateSearchSummary attr, value, count
-   
+
+  _displayTooltip: (content, areaProp) ->
+    @unsetMapTooltip()
+
+    view = @
+
+    areaProp.top = areaProp.height * 0.4 + areaProp.top
+    areaProp.height = 0
+    @$mapTooltip = $(JST['mapTooltip'](content: content))
+    @$mapTooltip.css(areaProp)
+    $el = @$mapTooltip
+    @$mapTooltip.imagesLoaded().always ->
+      $innerEl = $('.map-tooltip', $el)
+      
+      horiz = areaProp.width / 2 + areaProp.left
+      if horiz > 920
+        $innerEl.addClass 'rev-horiz'
+      vert = areaProp.top + $('#header').outerHeight() - $innerEl.outerHeight()
+      if vert < 30
+        $innerEl.addClass 'rev-vert'
+        $el.css 'top', areaProp.height * 0.6 + areaProp.top
+      $el.removeClass 'hidden'
+
+    $('.close', @$mapTooltip).on 'click', (e) ->
+      $('area').mapster 'deselect'
+      view.unsetMapTooltip()
+    @$el.append @$mapTooltip
+
+  _showBusinessAreaTooltip: (e) ->
+    if $('#business-area-tooltip').length
+      @unsetMapTooltip()
+    else
+      areaProp = {}
+      areaProp.width  = @$businessArea.width()
+      areaProp.height = @$businessArea.height()
+      areaProp.left   = parseInt @$businessArea.css('left').replace('px', '')
+      areaProp.top    = parseInt @$businessArea.css('top').replace('px', '')
+      $('area').mapster 'deselect'
+      @_displayTooltip JST['mapBusinessAreaTooltip'](), areaProp
+      @$mapTooltip.attr('id', 'business-area-tooltip')
+       

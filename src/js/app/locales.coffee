@@ -47,6 +47,7 @@ window.I18n.translations =
     no_matches: 'Совпадений не найдено'
     stand: 'Стенд'
     stands: 'Стенды'
+    business_area: 'Бизнес зона'
 
   en:
     search:
@@ -87,6 +88,7 @@ window.I18n.translations =
     no_matches: 'No matches found'
     stand: 'Stand'
     stands: 'Stands'
+    business_area: 'Business area'
 
 (($) ->
   "use strict"
