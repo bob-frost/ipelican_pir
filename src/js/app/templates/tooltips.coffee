@@ -24,7 +24,7 @@ window.JST['mapCompanyTooltip'] = _.template(
 )
 window.JST['mapBusinessAreaTooltip'] = _.template(
   "
-    <img src='images/no-image.png' />
+    <img src='images/business-area-logo.png' />
     <div class='details'>
       <div class='name'><%= I18n.t('business_area') %></div>
       <div class='description'></div>
