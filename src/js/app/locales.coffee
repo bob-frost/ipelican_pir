@@ -45,6 +45,8 @@ window.I18n.translations =
     go_to_companies: 'Перейти к списку компаний'
     page_not_found: 'Страница не найдена'
     no_matches: 'Совпадений не найдено'
+    stand: 'Стенд'
+    stands: 'Стенды'
 
   en:
     search:
@@ -83,6 +85,8 @@ window.I18n.translations =
     go_to_companies: 'Show all companies'
     page_not_found: 'Page not found'
     no_matches: 'No matches found'
+    stand: 'Stand'
+    stands: 'Stands'
 
 (($) ->
   "use strict"
