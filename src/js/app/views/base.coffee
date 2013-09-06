@@ -80,9 +80,6 @@ class App.Views.Base extends Backbone.View
     $('body').removeClass('bg')
     @_updateNavElements([@$searchButtons, @$backToMap])
 
-    $form = $("#search-form-#{attr}")
-    $("select.search-field[name='#{attr}'], input.search-field[name='#{attr}']").val(value).change()
-
   searchCompanies: (locale, attr, value, page) ->
     @_showCompanies page, attr, value
 
