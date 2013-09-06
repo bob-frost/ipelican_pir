@@ -27,11 +27,10 @@ window.JST['companies'] = _.template(
       </div>
     <% }); %>
     <div class='clr'></div>
-    <% if(App.baseView.searchType != 'companies'){ %>
-      <br />
-      <a href='#!/<%= App.getLocale() %>/companies' class='btn'><%= I18n.t('go_to_companies') %></a>
-    <% } %>
   </div>
-  
+  <% if(App.baseView.searchType != 'companies'){ %>
+    <br />
+    <a href='#!/<%= App.getLocale() %>/companies' class='btn' id='go-to-companies'><%= I18n.t('go_to_companies') %></a>
+  <% } %>
   "
 )

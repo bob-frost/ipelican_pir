@@ -308,6 +308,10 @@ body.loading #main-loader{
   margin-top: 15px;
 }
 
+#go-to-companies{
+  margin-left: 20px;
+}
+
 #prev-page, #next-page{
   position: absolute;
   top: 0;
