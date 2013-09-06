@@ -18,8 +18,7 @@ window.JST['companies'] = _.template(
             <% } %>
             <ul>
               <% _.each(group, function(company){ %>
-                <% link = App.baseView.searchType != 'companies' ? ('select/' + company.get('id')) : ('companies/' + company.get('id')) %>
-                <li><a href='#!/<%= App.getLocale() %>/<%= link %>'><%= company.get('name') %></a></li>
+                <li><a href='#!/<%= App.getLocale() %>/select/<%= company.get('id') %>'><%= company.get('name') %></a></li>
               <% }); %>
             </ul>
             <div class='clr'></div>
