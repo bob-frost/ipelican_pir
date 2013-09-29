@@ -429,7 +429,7 @@ body.loading #main-loader{
 .map-tooltip{
   position: absolute;
   bottom: 15px;
-  left: -93px;
+  left: -63px;
   width: 400px;
   margin-left: 50%;
   padding: 20px 20px 15px 20px;
@@ -441,7 +441,7 @@ body.loading #main-loader{
 .map-tooltip .arr{
   position: absolute;
   bottom: -15px;
-  left: 80px;
+  left: 50px;
   width: 26px;
   height: 15px;
   background: url(../images/spr.png) no-repeat -420px -53px;
@@ -449,12 +449,12 @@ body.loading #main-loader{
 .map-tooltip.rev-horiz{
   left: auto;
   margin-left: auto;
-  right: -93px;
+  right: -63px;
   margin-right: 50%;
 }
 .map-tooltip.rev-horiz .arr{
   left: auto;
-  right: 80px;
+  right: 50px;
 }
 .map-tooltip.rev-vert{
   bottom: auto;
