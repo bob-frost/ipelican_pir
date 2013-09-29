@@ -12,6 +12,7 @@ window.JST['header'] = _.template(
           &nbsp;
           <input type='text' name='name' class='search-field' placeholder='<%= I18n.t('search.by_name_placeholder') %>' />
           <button class='btn btn-large'><%= I18n.t('search.submit') %></button>
+          <a href='#!/<%= App.getLocale() %>/companies' class='btn btn-large'><%= I18n.t('list') %></a>
         </div>
         <div class='search-form nav-el' id='search-form-activity_types' style='display:none'>
           <span class='label'><%= I18n.t('search.choose_label') %></span>

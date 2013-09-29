@@ -48,6 +48,7 @@ window.I18n.translations =
     stand: 'Стенд'
     stands: 'Стенды'
     business_area: 'Бизнес зона'
+    list: 'Список'
 
   en:
     search:
@@ -89,6 +90,7 @@ window.I18n.translations =
     stand: 'Stand'
     stands: 'Stands'
     business_area: 'Business area'
+    list: 'List'
 
 (($) ->
   "use strict"
