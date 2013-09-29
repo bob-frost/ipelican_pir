@@ -269,6 +269,9 @@ body.loading #main-loader{
 #copyright img{
   vertical-align: -4px;
 }
+#social-buttons{
+  float: left;
+}
 
 /* Companies list */
 
