@@ -11,6 +11,5 @@ window.JST['home'] = _.template(
          coords='<%= data.coords %>' />
       <% }) %>
     </map>
-    <div id='business-area'></div>
   "
 )

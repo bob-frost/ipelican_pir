@@ -2,17 +2,12 @@ class App.Views.Home extends App.Views.Abstract
 
   id: 'home'
 
-  events: 
-    'click #business-area' : '_showBusinessAreaTooltip'
-
   initialize: ->
     @mapMarkers = {}
 
   render: ->
     @$el.html(JST['home'])
-
     @$map = $('#map')
-    @$businessArea = $('#business-area')
 
     view = @
     @$map.mapster
@@ -21,13 +16,20 @@ class App.Views.Home extends App.Views.Abstract
       singleSelect: true
       mapKey: 'title'
       showToolTip: false
+      areas: [
+        key: 'BUSINESS'
+        fillOpacity: 0
+      ]
       onClick: (e) ->
         view._showHiddenMarkers()
         if e.selected
           view.setMapTooltip(e.key)
         else
           view.unsetMapTooltip()
+
     @
+
+
 
   search: (attr, value) ->
     @clearMap()
@@ -168,16 +170,4 @@ class App.Views.Home extends App.Views.Abstract
       view.unsetMapTooltip()
     @$el.append @$mapTooltip
 
-  _showBusinessAreaTooltip: (e) ->
-    if $('#business-area-tooltip').length
-      @unsetMapTooltip()
-    else
-      areaProp = {}
-      areaProp.width  = @$businessArea.width()
-      areaProp.height = @$businessArea.height()
-      areaProp.left   = parseInt @$businessArea.css('left').replace('px', '')
-      areaProp.top    = parseInt @$businessArea.css('top').replace('px', '')
-      $('area').mapster 'deselect'
-      @_displayTooltip JST['mapBusinessAreaTooltip'](), areaProp
-      @$mapTooltip.attr('id', 'business-area-tooltip')
        

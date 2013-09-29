@@ -493,17 +493,11 @@ body.loading #main-loader{
   margin: -10px -10px 0 0;
 }
 
-#business-area{
-  position: absolute;
-  top: 148px;
-  left: 1198px;
-  width: 42px;
-  height: 158px;
-  background: url(../images/spr.png) no-repeat -455px 0;
-  cursor: pointer;
+#home{
+  background: url(../images/map-bg-ru.png) no-repeat 0 0;
 }
-.en #business-area{
-  background-position: -497px 0;
+.en #home{
+  background: url(../images/map-bg-en.png) no-repeat 0 0;
 }
 
 /* Select2 */
