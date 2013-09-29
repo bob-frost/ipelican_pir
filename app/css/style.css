@@ -110,6 +110,7 @@ body.bg{
   height: 33px;
   margin: -33px auto 0 auto;
   padding: 0 40px;
+  position: relative;
 }
 
 /* Common elements */
